@@ -26,6 +26,10 @@ public class Leccion {
     @JoinColumn(name = "curso_id" , nullable = false)
     private Curso curso;
 
+    @ManyToOne
+    @JoinColumn(name = "profesor_id" , nullable = false)
+    private Profesor profesor;
+
     public Long getId() {
         return id;
     }
@@ -64,5 +68,13 @@ public class Leccion {
 
     public void setCurso(Curso curso) {
         this.curso = curso;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 }
