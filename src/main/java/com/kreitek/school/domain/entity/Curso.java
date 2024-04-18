@@ -17,9 +17,12 @@ public class Curso {
     @Column(name = "RESUMEN" , nullable = false, length = 2000)
     private String resumen;
 
-    @OneToMany(mappedBy = "curso" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "curso" , cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     Set<Leccion> lecciones;
 
+
+    @ManyToMany(mappedBy = "cursos")
+    Set<Alumno> alumnos;
 
 
     public Long getId() {
@@ -53,5 +56,21 @@ public class Curso {
     public void setLecciones(Set<Leccion> lecciones) {
         this.lecciones = lecciones;
         this.lecciones.forEach(leccion -> leccion.setCurso(this));
+    }
+
+    public Set<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    public void setAlumnos(Set<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass() || id == null) return false;
+        Curso curso = (Curso) obj;
+        return id.equals(curso.id);
     }
 }
