@@ -1,8 +1,9 @@
 package com.kreitek.school.application.dto;
 
-import jakarta.persistence.Column;
+
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class LeccionDto  implements Serializable {
@@ -21,8 +22,9 @@ public class LeccionDto  implements Serializable {
     private Long profesorId;
     private String profesorNombre;
 
+    List<AdjuntoDto> adjuntos ;
 
-    public LeccionDto() {
+    public LeccionDto() { //for mapper is empty
     }
 
     public Long getId() {
@@ -87,6 +89,14 @@ public class LeccionDto  implements Serializable {
 
     public void setProfesorNombre(String profesorNombre) {
         this.profesorNombre = profesorNombre;
+    }
+
+    public List<AdjuntoDto> getAdjuntos() {
+        return adjuntos;
+    }
+
+    public void setAdjuntos(List<AdjuntoDto> adjuntos) {
+        this.adjuntos = adjuntos;
     }
 
     @Override

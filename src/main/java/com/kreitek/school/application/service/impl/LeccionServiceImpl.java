@@ -1,5 +1,6 @@
 package com.kreitek.school.application.service.impl;
 
+import com.kreitek.school.application.dto.AdjuntoDto;
 import com.kreitek.school.application.dto.LeccionDto;
 import com.kreitek.school.application.mapper.LeccionMapper;
 import com.kreitek.school.application.service.LeccionService;
@@ -45,5 +46,16 @@ public class LeccionServiceImpl implements LeccionService {
     public Optional<LeccionDto> obtenerLeccionDeUnCurso(Long leccionId, Long cursoId) {
         return leccionRepository.findOneByIdAndCurso_Id(leccionId,cursoId)
                 .map(leccionMapper::toDto);
+    }
+
+    @Override
+    @Transactional
+    public List<AdjuntoDto> adjuntarFichero(Long cursoId, Long leccionId, AdjuntoDto adjuntoDto) {
+        LeccionDto leccionDto = obtenerLeccionDeUnCurso(leccionId, cursoId)
+                .orElseThrow(()-> new RuntimeException("El leccion no existe"));
+        leccionDto.getAdjuntos().add(adjuntoDto);
+        Leccion leccion = leccionRepository.save(leccionMapper.toEntity(leccionDto));
+        leccionDto = leccionMapper.toDto(leccion);
+        return leccionDto.getAdjuntos();
     }
 }

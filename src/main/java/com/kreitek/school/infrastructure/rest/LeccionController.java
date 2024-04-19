@@ -1,10 +1,9 @@
 package com.kreitek.school.infrastructure.rest;
 
 
+import com.kreitek.school.application.dto.AdjuntoDto;
 import com.kreitek.school.application.dto.LeccionDto;
 import com.kreitek.school.application.service.LeccionService;
-import com.kreitek.school.domain.entity.Leccion;
-import com.kreitek.school.infrastructure.repository.LeccionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +45,14 @@ public class LeccionController {
        return new  ResponseEntity<>(leccionDto , HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/lecciones/{leccionId}/adjuntos",produces = "application/json" , consumes = "application/json")
+    public ResponseEntity<List<AdjuntoDto>> anadirAdjuntoEnLeccion(
+                                                                @PathVariable Long cursoId,
+                                                                @PathVariable Long leccionId,
+                                                                @RequestBody AdjuntoDto adjuntoDto){
+       List<AdjuntoDto> adjuntoDtoList =  leccionService.adjuntarFichero(cursoId,leccionId,adjuntoDto);
+       return ResponseEntity.ok(adjuntoDtoList);
+    }
 
 
 
