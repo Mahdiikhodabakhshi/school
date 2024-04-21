@@ -21,6 +21,10 @@ public class Cuestionario {
     @OneToMany(mappedBy = "cuestionario" , cascade = CascadeType.ALL)
     private Set<PreguntaCuestionario> preguntas;
 
+    @OneToMany(mappedBy = "cuestionario")
+    Set<Calificacion> calificaciones;
+
+
 
     public Long getId() {
         return id;
@@ -52,5 +56,13 @@ public class Cuestionario {
 
     public void setPreguntas(Set<PreguntaCuestionario> preguntas) {
         this.preguntas = preguntas;
+    }
+
+    public Set<Calificacion> getCalificaciones() {
+        return calificaciones;
+    }
+
+    public void setCalificaciones(Set<Calificacion> calificaciones) {
+        this.calificaciones = calificaciones;
     }
 }

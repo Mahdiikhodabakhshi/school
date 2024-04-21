@@ -1,6 +1,7 @@
 package com.kreitek.school.application.service.impl;
 
 import com.kreitek.school.application.dto.AlumnoDto;
+import com.kreitek.school.application.dto.CalificacionDto;
 import com.kreitek.school.application.dto.CursoSimpleDto;
 import com.kreitek.school.application.mapper.AlumnoMapper;
 import com.kreitek.school.application.service.AlumnoService;
@@ -70,6 +71,15 @@ public class AlumnoServiceImpl implements AlumnoService {
         Alumno alumno = alumnoRepository.findById(alumnoId).orElseThrow(()-> new RuntimeException("El alumno no existe"));
         //alumno.getCursos().remove(cursoId);
         alumno.eliminarCursoPorId(cursoId);
-        alumno = alumnoRepository.save(alumno);
+        alumnoRepository.save(alumno);
+    }
+
+    @Override
+    public AlumnoDto anadirCalificacion(Long alumnoId, CalificacionDto calificacionDto) {
+        AlumnoDto alumnoDto = obtenerAlumnoPorId(alumnoId)
+                .orElseThrow(()-> new RuntimeException("El alumno no existe"));
+        alumnoDto.getCalificaciones().add(calificacionDto);
+        Alumno alumno = alumnoRepository.save(alumnoMapper.toEntity(alumnoDto));
+        return alumnoMapper.toDto(alumno);
     }
 }

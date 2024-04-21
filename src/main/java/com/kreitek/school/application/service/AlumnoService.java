@@ -1,6 +1,7 @@
 package com.kreitek.school.application.service;
 
 import com.kreitek.school.application.dto.AlumnoDto;
+import com.kreitek.school.application.dto.CalificacionDto;
 import com.kreitek.school.application.dto.CursoSimpleDto;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface AlumnoService {
     List<CursoSimpleDto> registrarAlumnoEnCurso(Long alumnoId, CursoSimpleDto cursoSimpleDtos);
 
     void eliminarCursoDeAlumno(Long alumnoId, Long cursoId);
+
+    AlumnoDto anadirCalificacion(Long alumnoId, CalificacionDto calificacionDto);
 }
