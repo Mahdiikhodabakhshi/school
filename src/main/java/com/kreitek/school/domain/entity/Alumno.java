@@ -10,8 +10,9 @@ public class Alumno {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "school_sequence")
-    @SequenceGenerator(name = "school_sequence")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "school_sequence")
+//    @SequenceGenerator(name = "school_sequence")  por el entity de usuario
+    @Column(name = "id" , nullable = false)
     private Long id;
 
     @Column(name = "NOMBRE" , nullable = false )
@@ -34,6 +35,11 @@ public class Alumno {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "datos_facturacion_id" , referencedColumnName = "id")
     private DatosFacturacion datosFacturacion;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -81,6 +87,14 @@ public class Alumno {
 
     public void setDatosFacturacion(DatosFacturacion datosFacturacion) {
         this.datosFacturacion = datosFacturacion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void eliminarCursoPorId(Long cursoId) {

@@ -12,6 +12,9 @@ public class ProfesorDto implements Serializable {
 
     private String numeroTelefono;
 
+
+    private UsuarioDto usuario;
+
     public ProfesorDto() {
     }
 
@@ -37,6 +40,14 @@ public class ProfesorDto implements Serializable {
 
     public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
+    }
+
+    public UsuarioDto getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDto usuario) {
+        this.usuario = usuario;
     }
 
     @Override

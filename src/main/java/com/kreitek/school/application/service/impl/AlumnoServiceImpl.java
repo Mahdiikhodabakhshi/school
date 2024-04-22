@@ -1,14 +1,14 @@
 package com.kreitek.school.application.service.impl;
 
-import com.kreitek.school.application.dto.AlumnoDto;
-import com.kreitek.school.application.dto.CalificacionDto;
-import com.kreitek.school.application.dto.CursoSimpleDto;
-import com.kreitek.school.application.dto.DatosFacturacionDto;
+import com.kreitek.school.application.dto.*;
 import com.kreitek.school.application.mapper.AlumnoMapper;
 import com.kreitek.school.application.mapper.DatosFacturacionMapper;
 import com.kreitek.school.application.service.AlumnoService;
+import com.kreitek.school.application.service.UsuarioService;
 import com.kreitek.school.domain.entity.Alumno;
 import com.kreitek.school.domain.entity.DatosFacturacion;
+import com.kreitek.school.domain.entity.Usuario;
+import com.kreitek.school.domain.entity.type.UserType;
 import com.kreitek.school.infrastructure.repository.AlumnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,14 @@ public class AlumnoServiceImpl implements AlumnoService {
     private final AlumnoRepository alumnoRepository;
     private final AlumnoMapper alumnoMapper;
     private final DatosFacturacionMapper datosFacturacionMapper;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public AlumnoServiceImpl(AlumnoRepository alumnoRepository, AlumnoMapper alumnoMapper, DatosFacturacionMapper datosFacturacionMapper) {
+    public AlumnoServiceImpl(AlumnoRepository alumnoRepository, AlumnoMapper alumnoMapper, DatosFacturacionMapper datosFacturacionMapper, UsuarioService usuarioService) {
         this.alumnoRepository = alumnoRepository;
         this.alumnoMapper = alumnoMapper;
         this.datosFacturacionMapper = datosFacturacionMapper;
+        this.usuarioService = usuarioService;
     }
 
 
@@ -51,6 +53,11 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Transactional
     public AlumnoDto crearAlumno(AlumnoDto alumnoDto) {
         var alumno = alumnoMapper.toEntity(alumnoDto);
+        UsuarioDto usuarioDto = alumnoDto.getUsuario();
+        usuarioDto.setTipoUsuario(UserType.ALUMNO);
+        Usuario usuario = usuarioService.createUsuario(usuarioDto);
+        alumno.setUsuario(usuario);
+
         alumno = alumnoRepository.save(alumno);
         return alumnoMapper.toDto(alumno);
     }

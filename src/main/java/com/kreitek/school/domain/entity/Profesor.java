@@ -7,8 +7,9 @@ import jakarta.persistence.*;
 public class Profesor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "school_sequence")
-    @SequenceGenerator(name = "school_sequence")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "school_sequence")
+//    @SequenceGenerator(name = "school_sequence") por el usuario
+    @Column(name = "id" , nullable = false)
     private Long id;
 
     @Column(name = "NOMBRE" , nullable = false)
@@ -16,6 +17,11 @@ public class Profesor {
 
     @Column(name = "NUMERO_TELEFONO" , length = 15)
     private String numeroTelefono;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -39,5 +45,13 @@ public class Profesor {
 
     public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

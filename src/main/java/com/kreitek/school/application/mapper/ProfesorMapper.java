@@ -4,7 +4,7 @@ import com.kreitek.school.application.dto.ProfesorDto;
 import com.kreitek.school.domain.entity.Profesor;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring" , uses = {UsuarioMapper.class})
 public interface ProfesorMapper extends EntityMapper<ProfesorDto , Profesor> {
 
 
