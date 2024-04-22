@@ -3,6 +3,7 @@ package com.kreitek.school.application.service;
 import com.kreitek.school.application.dto.AlumnoDto;
 import com.kreitek.school.application.dto.CalificacionDto;
 import com.kreitek.school.application.dto.CursoSimpleDto;
+import com.kreitek.school.application.dto.DatosFacturacionDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,8 @@ public interface AlumnoService {
     void eliminarCursoDeAlumno(Long alumnoId, Long cursoId);
 
     AlumnoDto anadirCalificacion(Long alumnoId, CalificacionDto calificacionDto);
+
+    Optional<DatosFacturacionDto> obtenerDatosFacturacionPorId(Long alumnoId);
+
+    DatosFacturacionDto actualizarDatosFacturacion(Long alumnoId, DatosFacturacionDto datosFacturacionDto);
 }

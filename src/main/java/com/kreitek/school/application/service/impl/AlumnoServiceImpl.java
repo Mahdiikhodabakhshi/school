@@ -3,9 +3,12 @@ package com.kreitek.school.application.service.impl;
 import com.kreitek.school.application.dto.AlumnoDto;
 import com.kreitek.school.application.dto.CalificacionDto;
 import com.kreitek.school.application.dto.CursoSimpleDto;
+import com.kreitek.school.application.dto.DatosFacturacionDto;
 import com.kreitek.school.application.mapper.AlumnoMapper;
+import com.kreitek.school.application.mapper.DatosFacturacionMapper;
 import com.kreitek.school.application.service.AlumnoService;
 import com.kreitek.school.domain.entity.Alumno;
+import com.kreitek.school.domain.entity.DatosFacturacion;
 import com.kreitek.school.infrastructure.repository.AlumnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,13 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     private final AlumnoRepository alumnoRepository;
     private final AlumnoMapper alumnoMapper;
+    private final DatosFacturacionMapper datosFacturacionMapper;
 
     @Autowired
-    public AlumnoServiceImpl(AlumnoRepository alumnoRepository, AlumnoMapper alumnoMapper) {
+    public AlumnoServiceImpl(AlumnoRepository alumnoRepository, AlumnoMapper alumnoMapper, DatosFacturacionMapper datosFacturacionMapper) {
         this.alumnoRepository = alumnoRepository;
         this.alumnoMapper = alumnoMapper;
+        this.datosFacturacionMapper = datosFacturacionMapper;
     }
 
 
@@ -81,5 +86,25 @@ public class AlumnoServiceImpl implements AlumnoService {
         alumnoDto.getCalificaciones().add(calificacionDto);
         Alumno alumno = alumnoRepository.save(alumnoMapper.toEntity(alumnoDto));
         return alumnoMapper.toDto(alumno);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<DatosFacturacionDto> obtenerDatosFacturacionPorId(Long alumnoId) {
+        return obtenerAlumnoPorId(alumnoId)
+                .map(AlumnoDto::getDatosFacturacion);
+
+    }
+
+    @Override
+    @Transactional
+    public DatosFacturacionDto actualizarDatosFacturacion(Long alumnoId, DatosFacturacionDto datosFacturacionDto) {
+       Alumno alumno = alumnoRepository.findById(alumnoId)
+                .orElseThrow(()-> new RuntimeException("El alumno no existe"));
+       DatosFacturacion datosFacturacion = datosFacturacionMapper.toEntity(datosFacturacionDto) ;
+       alumno.setDatosFacturacion(datosFacturacion);
+       alumnoRepository.save(alumno);
+
+        return alumnoMapper.toDto(alumno).getDatosFacturacion();
     }
 }

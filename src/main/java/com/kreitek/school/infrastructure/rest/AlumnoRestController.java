@@ -2,6 +2,7 @@ package com.kreitek.school.infrastructure.rest;
 
 import com.kreitek.school.application.dto.AlumnoDto;
 import com.kreitek.school.application.dto.CursoSimpleDto;
+import com.kreitek.school.application.dto.DatosFacturacionDto;
 import com.kreitek.school.application.service.AlumnoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,24 @@ public class AlumnoRestController {
     public ResponseEntity<Void> eliminarCursoDeAlumno(@PathVariable Long alumnoId, @PathVariable Long cursoId) {
         alumnoService.eliminarCursoDeAlumno(alumnoId,cursoId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping(value = "/alumnos/{alumnoId}/datos-facturacion" , produces = "application/json")
+    public ResponseEntity<DatosFacturacionDto> obtenerDatosFacturacion(@PathVariable Long alumnoId) {
+        return alumnoService
+                .obtenerDatosFacturacionPorId(alumnoId)
+                .map(datosFacturacionDto -> new ResponseEntity<>(datosFacturacionDto, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping(value = "/alumnos/{alumnoId}/datos-facturacion" , produces = "application/json" , consumes = "application/json")
+    public ResponseEntity<DatosFacturacionDto> modificacionDatosFacturacion(
+            @PathVariable Long alumnoId ,
+            @RequestBody DatosFacturacionDto datosFacturacionDto) {
+        datosFacturacionDto = alumnoService.actualizarDatosFacturacion(alumnoId,datosFacturacionDto);
+        return new ResponseEntity<>(datosFacturacionDto, HttpStatus.OK);
+
     }
 
 
